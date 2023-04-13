@@ -1,0 +1,326 @@
+@use "./colors";
+
+@mixin tool-box {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	border: solid 2px colors.$dark-bgc;
+	background-color: colors.$text-color;
+	color: colors.$dark-bgc;
+	border-radius: 50%;
+}
+
+@mixin input {
+	padding: 1rem;
+	width: 100%;
+	font-size: 1.5rem;
+	margin-right: 1rem;
+	border: none;
+	border-radius: 8px;
+}
+
+@mixin button {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	padding: 1rem;
+	font-size: 1.6rem;
+	border: none;
+	border-radius: 8px;
+	background-color: colors.$text-color;
+	color: colors.$main-bgc;
+	transition: color 0.4s, background-color 0.4s;
+	cursor: pointer;
+	&:hover {
+		background-color: colors.$main-bgc;
+		color: colors.$text-color;
+	}
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: "Roboto", sans-serif;
+	font-size: 1.6rem;
+	background-color: colors.$dark-bgc;
+}
+
+.background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-image: url(../photos/tomatoes-gf36e52851_1920.jpg);
+	background-size: cover;
+	background-position: center;
+	z-index: -2;
+	&-shadow {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		background-color: colors.$transparent-black;
+		z-index: -1;
+	}
+}
+
+.wrapper {
+	height: 100vh;
+	width: 100vw;
+	background-color: colors.$main-bgc;
+	color: colors.$text-color;
+	box-shadow: 7px 7px 20px 1px black;
+	overflow: hidden;
+}
+
+.top {
+	position: sticky;
+	top: 0;
+	background-color: colors.$dark-bgc;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	z-index: 9;
+	.h1 {
+		padding: 2rem 1rem;
+		font-size: 2rem;
+		color: colors.$main-color;
+		text-transform: uppercase;
+	}
+	.main-input-wrapper {
+		width: 100%;
+		padding: 0rem 3rem;
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 3rem;
+		.main-input {
+			@include input;
+		}
+		.main-button {
+			@include button;
+			width: 100px;
+		}
+	}
+}
+
+.bottom {
+	// Tu trzeba zczytać h top i odjac od 100vh do max-h
+	// max-height: calc(100vh - 156px);
+	overflow: scroll;
+	.sub-title {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 2rem 0;
+		.h2 {
+			margin-bottom: 1rem;
+			font-size: 1.8rem;
+			color: colors.$main-color;
+		}
+		.warning {
+			font-size: 1.8rem;
+		}
+	}
+	.list {
+		padding: 0 2rem 1.5rem 2rem;
+
+		.item {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 0.5rem 0.5rem;
+			margin-bottom: 2rem;
+			background-color: colors.$dark-bgc;
+			.content-box,
+			.tool-box {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+			.check-box-padding {
+				padding: 10px;
+				margin-right: 1rem;
+				transition: background-color 0.4s;
+				cursor: pointer;
+				&:hover {
+					background-color: colors.$main-bgc;
+				}
+				.check-box {
+					@include tool-box;
+					.fa-sharp {
+						display: none;
+						position: absolute;
+						bottom: -3px;
+						color: colors.$done;
+						font-size: 30px;
+						pointer-events: none;
+					}
+				}
+			}
+			.content {
+				padding: 1rem 0rem;
+				font-size: 1.8rem;
+			}
+			.tool-box {
+				i {
+					position: absolute;
+					pointer-events: none;
+				}
+				.edit-padding {
+					transition: background-color 0.4s, color 0.4s;
+					&:hover {
+						background-color: colors.$main-bgc;
+						color: colors.$text-color;
+					}
+					.edit-box {
+						@include tool-box;
+						i {
+							bottom: 4px;
+							left: 4px;
+							font-size: 13px;
+						}
+					}
+				}
+
+				.delete-padding {
+					transition: background-color 0.4s, color 0.4s;
+					&:hover {
+						background-color: colors.$main-bgc;
+						color: colors.$text-color;
+					}
+					.delete-box {
+						@include tool-box;
+						i {
+							bottom: -1px;
+							left: 4px;
+							font-size: 22px;
+						}
+					}
+				}
+				.edit-padding,
+				.delete-padding {
+					padding: 10px;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	.done {
+		text-decoration: line-through;
+		.content-box {
+			.check-box-padding {
+				.check-box {
+					.fa-sharp {
+						display: block;
+					}
+				}
+			}
+			.content {
+				font-size: 1.4rem;
+			}
+		}
+	}
+}
+
+.edit-wrapper {
+	position: absolute;
+	bottom: 0;
+	display: none;
+
+	flex-direction: column;
+	align-items: center;
+	width: 100vw;
+	background-color: colors.$dark-bgc;
+	z-index: 9;
+	.h2 {
+		margin-top: 1rem;
+		margin-bottom: 2rem;
+		font-size: 1.8rem;
+
+		color: colors.$main-color;
+	}
+	.edit-input-wrapper {
+		width: 100%;
+		padding: 0 3rem;
+		.edit-input {
+			@include input;
+		}
+	}
+	.edit-buttons-wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		width: 100%;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		padding: 0 3rem;
+		.apply-button,
+		.cancel-button {
+			@include button;
+			width: 150px;
+		}
+	}
+}
+
+////////////media//////////////////
+
+@media screen and (min-width: 992px) {
+	.wrapper {
+		height: 616px;
+		width: 1000px;
+		border-radius: 15px;
+	}
+
+	.top {
+		.main-input-wrapper {
+			padding: 0rem 6rem;
+		}
+	}
+
+	.bottom {
+		.list {
+			.item {
+				padding: 0.5rem 4rem;
+			}
+		}
+	}
+
+	.edit-wrapper {
+		bottom: 20px;
+		width: 1000px;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+
+		.edit-input-wrapper {
+			padding: 0 6rem;
+		}
+		.edit-buttons-wrapper {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			width: 100%;
+			margin-top: 2rem;
+			.apply-button,
+			.cancel-button {
+				@include button;
+				width: 200px;
+			}
+		}
+	}
+}
